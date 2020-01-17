@@ -73,7 +73,31 @@ router.delete('/:id', (req, res) => {
 //Update a project
 
 router.put('/:id', (req, res) => {
-    
+    const id = req.params.id;
+      const { description, project_id, notes } = req.body; 
+       if (!description || !project_id || !notes) {
+           return res.status(400).json({ 
+               errorMessage: "Please provide project_id, description, and notes for the project."
+           })
+       }
+       projectData.update(id, {project_id, description, notes})
+       .then(projectUpdate => {
+           if(projectUpdate) {
+               projectData.getById(id)
+                .then(project => {
+                    res.status(201).json(project)
+                })
+           }else{
+               res.status(404).json({
+                   errorMessage: "The project with the specified ID does not exist."
+               })
+           }
+       })
+       .catch(err => {
+           res.status(500).json({
+               errorMessage: "The project information could not be modified."
+           })
+       })
 });
 
 // custom middleware
