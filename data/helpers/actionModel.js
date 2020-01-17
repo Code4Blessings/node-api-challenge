@@ -3,6 +3,7 @@ const mappers = require("./mappers");
 
 module.exports = {
     get,
+    getById,
     insert,
     update,
     remove,
@@ -27,6 +28,12 @@ function get(id) {
             return actions.map(action => mappers.actionToBody(action));
         });
     }
+}
+
+function getById(id) {
+  return db('projects')
+    .where({ id: Number(id) })
+    .first();
 }
 
 function insert(action) {

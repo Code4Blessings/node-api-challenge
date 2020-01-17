@@ -12,6 +12,11 @@ server.get('/', (req, res) => {
     })
 })
 
+function logger(req, res, next) {
+    console.log(`[${new Date().toISOString()}] ${req.method} to ${req.url} from ${req.get('Origin')}`);
+    next();
+}
+
 server.use('/api/projects', projectRouter);
 
 module.exports = server;
