@@ -1,6 +1,7 @@
 const express = require('express');
 
 const projectRouter = require('../projects/project-router')
+const actionRouter = require('../actions/action-router')
 
 const server = express();
 
@@ -18,6 +19,7 @@ function logger(req, res, next) {
 }
 
 server.use('/api/projects', projectRouter);
+server.use('/api/actions', actionRouter)
 
 module.exports = server;
 
