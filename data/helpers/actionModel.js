@@ -31,9 +31,7 @@ function get(id) {
 }
 
 function getById(id) {
-  return db('projects')
-    .where({ id: Number(id) })
-    .first();
+  return db("actions").where({ id: Number(id) });
 }
 
 function insert(action) {

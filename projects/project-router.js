@@ -23,9 +23,9 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     const newProject = req.body;
     const id = req.params.id;
-    if(!newProject.name || !newProject.description || !newProject.project_id) {
+    if(!newProject.description || !newProject.project_id || !newProject.notes) {
         res.status(400).json({
-            errorMessage: "Name, description, and product_id are required"
+            errorMessage: "Name, description, notes, and product_id are required"
         })
     }else if(newProject.description.length > 128) {
         res.status(413).json({
@@ -73,7 +73,7 @@ router.delete('/:id', (req, res) => {
 //Update a project
 
 router.put('/:id', (req, res) => {
-    // do your magic!
+    
 });
 
 // custom middleware
