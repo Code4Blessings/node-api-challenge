@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const projectData = require('../data/helpers/actionModel')
+const projectData = require('../data/helpers/projectModel')
 
 //Get a list of projects
 
@@ -23,9 +23,9 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     const newProject = req.body;
     const id = req.params.id;
-    if(!newProject.description || !newProject.project_id || !newProject.notes) {
+    if(!newProject.description || !newProject.name) {
         res.status(400).json({
-            errorMessage: "Name, description, notes, and product_id are required"
+            errorMessage: "Name and description are required"
         })
     }else if(newProject.description.length > 128) {
         res.status(413).json({
@@ -54,18 +54,18 @@ router.post('/', (req, res) => {
 router.delete('/:id', (req, res) => {
     const {id} = req.params;
          projectData.remove(id)
-        .then(userRemoved => {
-           if(userRemoved) {
-                   res.status(204).json(userRemoved)
+        .then(projectRemoved => {
+           if(projectRemoved) {
+                   res.status(204).json(projectRemoved)
            }else {
                 res.status(404).json({
-                    errorMessage: "The user with the specified ID does not exist."
+                    errorMessage: "The project with the specified ID does not exist."
                 })
            }
         })
         .catch(err => {
             res.status(500).json({
-                errorMessage: "The user could not be removed"
+                errorMessage: "The project could not be removed"
             })
         })
 });
@@ -74,13 +74,13 @@ router.delete('/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
     const id = req.params.id;
-      const { description, project_id, notes } = req.body; 
-       if (!description || !project_id || !notes) {
+      const { name, description } = req.body; 
+       if (!description || !name) {
            return res.status(400).json({ 
                errorMessage: "Please provide project_id, description, and notes for the project."
            })
        }
-       projectData.update(id, {project_id, description, notes})
+       projectData.update(id, {description, name})
        .then(projectUpdate => {
            if(projectUpdate) {
                projectData.getById(id)
