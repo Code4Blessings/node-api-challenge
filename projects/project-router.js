@@ -52,7 +52,22 @@ router.post('/', (req, res) => {
 //Remove a project
 
 router.delete('/:id', (req, res) => {
-    // do your magic!
+    const {id} = req.params;
+         projectData.remove(id)
+        .then(userRemoved => {
+           if(userRemoved) {
+                   res.status(204).json(userRemoved)
+           }else {
+                res.status(404).json({
+                    errorMessage: "The user with the specified ID does not exist."
+                })
+           }
+        })
+        .catch(err => {
+            res.status(500).json({
+                errorMessage: "The user could not be removed"
+            })
+        })
 });
 
 //Update a project
