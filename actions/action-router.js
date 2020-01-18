@@ -84,7 +84,7 @@ router.put('/:id', (req, res) => {
     }
     actionData.update(id, {description, notes, project_id})
         .then(actionUpdate => {
-            if (actionUpdate) {
+            if(actionUpdate) {
                 actionData.getById(id)
                     .then(action => {
                         res.status(201).json(action)
